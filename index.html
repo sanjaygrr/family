@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Miss You</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 30px;
+            max-width: 800px;
+        }
+        
+        h1 {
+            font-size: 5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            animation: glow 3s infinite alternate;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, #ff00cc, #ff6600, #ffcc00, #33cc33, #3399ff, #cc33ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 400% 100%;
+            animation: gradient 8s ease infinite;
+        }
+        
+        .message {
+            font-size: 2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: fadeIn 2s forwards 1s;
+        }
+        
+        .signature {
+            font-size: 1.8em;
+            font-style: italic;
+            margin-top: 40px;
+            opacity: 0;
+            animation: fadeIn 2s forwards 2s;
+        }
+        
+        .heart {
+            display: inline-block;
+            color: #ff3366;
+            font-size: 1.5em;
+            animation: heartBeat 1.5s infinite;
+            margin: 0 8px;
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.7);
+        }
+        
+        .sparkle-button {
+            position: relative;
+            background: linear-gradient(90deg, #ff3366, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(255, 51, 102, 0.5);
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 2s forwards 3s;
+        }
+        
+        .sparkle-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.7);
+        }
+        
+        .sparkle-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            transition: 0.7s;
+            animation: shimmer 3s infinite;
+        }
+        
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .emoji-float {
+            position: absolute;
+            font-size: 30px;
+            user-select: none;
+            animation: float-up 10s linear forwards;
+            opacity: 0;
+        }
+        
+        .firework-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: twinkle 5s infinite;
+        }
+        
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: shoot 3s linear infinite;
+        }
+        
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+            transform: translateX(-100%);
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff3366, 0 0 20px #ff3366; }
+            to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff3366, 0 0 40px #ff3366; }
+        }
+        
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-150%) rotate(45deg); }
+            100% { transform: translateX(150%) rotate(45deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100px) rotate(var(--rotation));
+                opacity: 0;
+            }
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw * var(--direction-x))) translateY(calc(100vh * var(--direction-y)));
+                opacity: 0;
+            }
+        }
+        
+        /* Firework animations */
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(0.1);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes rocket {
+            0% { bottom: -10%; opacity: 0.7; }
+            100% { bottom: var(--height); opacity: 0.2; }
+        }
+        
+        /* Digital rain effect */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+        
+        .matrix-rain canvas {
+            display: block;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3em;
+            }
+            
+            .message {
+                font-size: 1.5em;
+            }
+            
+            .signature {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="firework-container" id="fireworkContainer"></div>
+    <div class="particle-container" id="particleContainer"></div>
+    <div class="matrix-rain" id="matrixRain"></div>
+    
+    <div class="container">
+        <h1 id="title">I MISS YOU!</h1>
+        
+        <div class="message">
+            Though we're apart, you're always in my heart
+            <span class="heart">❤️</span>
+            Thinking of you every day until we meet again
+        </div>
+        
+        <button class="sparkle-button" id="sparkleButton">Send Love</button>
+        
+        <div class="signature">
+            With all my love
+        </div>
+    </div>
+    
+    <script>
+        // Create stars
+        const stars = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const size = Math.random() * 3 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 5}s`;
+            stars.appendChild(star);
+        }
+        
+        // Shooting stars
+        function createShootingStar() {
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            shootingStar.style.left = `${Math.random() * 100}%`;
+            shootingStar.style.top = `${Math.random() * 50}%`;
+            shootingStar.style.setProperty('--direction-x', Math.random() > 0.5 ? '-1' : '1');
+            shootingStar.style.setProperty('--direction-y', Math.random());
+            shootingStar.style.animationDuration = `${Math.random() * 2 + 2}s`;
+            stars.appendChild(shootingStar);
+            
+            setTimeout(() => {
+                stars.removeChild(shootingStar);
+            }, 3000);
+        }
+        
+        // Create shooting stars periodically
+        setInterval(createShootingStar, 2000);
+        
+        // Create firework effect
+        function createFirework(x, y) {
+            const colors = [
+                '#ff3366', '#ff6b6b', '#ff9999', '#ffcc99', 
+                '#99ff99', '#99ffff', '#9999ff', '#ff99ff',
+                '#ffff99', '#ff6347', '#00ffff', '#ff00ff',
+                '#ff0000', '#ffff00', '#00ff00', '#00ffff',
+                '#0000ff', '#ff00ff', '#ffffff', '#ffd700'
+            ];
+            
+            // Rocket
+            const rocket = document.createElement('div');
+            rocket.style.position = 'absolute';
+            rocket.style.width = '3px';
+            rocket.style.height = '10px';
+            rocket.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            rocket.style.left = `${x}px`;
+            rocket.style.bottom = '0';
+            rocket.style.zIndex = '1000';
+            rocket.style.borderRadius = '50% 50% 0 0';
+            
+            const targetHeight = y || window.innerHeight * (0.3 + Math.random() * 0.5);
+            rocket.style.setProperty('--height', `${targetHeight}px`);
+            rocket.style.animation = 'rocket 1s forwards';
+            
+            document.getElementById('fireworkContainer').appendChild(rocket);
+            
+            // Remove rocket after animation
+            setTimeout(() => {
+                document.getElementById('fireworkContainer').removeChild(rocket);
+                explode(x, targetHeight);
+            }, 1000);
+        }
+        
+        function explode(x, y) {
+            const colors = [
+                '#ff3366', '#ff6b6b', '#ff9999', '#ffcc99', 
+                '#99ff99', '#99ffff', '#9999ff', '#ff99ff',
+                '#ffff99', '#ff6347', '#00ffff', '#ff00ff',
+                '#ff0000', '#ffff00', '#00ff00', '#00ffff',
+                '#0000ff', '#ff00ff', '#ffffff'
+            ];
+            
+            // MASSIVE INCREASE: Create hundreds of particles for each explosion
+            for (let i = 0; i < 300; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                
+                // Vary the particle sizes more dramatically
+                const size = Math.random() * 6 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Pick a color for this particle
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.backgroundColor = color;
+                
+                // Much stronger glow effect with multiple shadows
+                particle.style.boxShadow = `0 0 ${size * 3}px ${color}, 0 0 ${size * 5}px ${color}`;
+                
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.borderRadius = '50%';
+                
+                // More dramatic directional explosion with greater range
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 250 + 100; // Dramatically increased range
+                const xDistance = Math.cos(angle) * distance;
+                const yDistance = Math.sin(angle) * distance;
+                
+                particle.style.setProperty('--x', `${xDistance}px`);
+                particle.style.setProperty('--y', `${yDistance}px`);
+                
+                // More varied animation durations for realistic effect
+                particle.style.animation = `explode ${0.8 + Math.random() * 1.5}s forwards`;
+                
+                document.getElementById('fireworkContainer').appendChild(particle);
+                
+                // Remove particle after animation
+                setTimeout(() => {
+                    if (document.getElementById('fireworkContainer').contains(particle)) {
+                        document.getElementById('fireworkContainer').removeChild(particle);
+                    }
+                }, 2500);
+            }
+            
+            // Create secondary explosion particles for more dramatic effect
+            setTimeout(() => {
+                // Secondary explosion with smaller particles
+                for (let i = 0; i < 150; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    
+                    const size = Math.random() * 3 + 0.5;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.backgroundColor = color;
+                    particle.style.boxShadow = `0 0 ${size * 2}px ${color}`;
+                    
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${y}px`;
+                    particle.style.borderRadius = '50%';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 180 + 150;
+                    const xDistance = Math.cos(angle) * distance;
+                    const yDistance = Math.sin(angle) * distance;
+                    
+                    particle.style.setProperty('--x', `${xDistance}px`);
+                    particle.style.setProperty('--y', `${yDistance}px`);
+                    
+                    particle.style.animation = `explode ${1 + Math.random()}s forwards`;
+                    
+                    document.getElementById('fireworkContainer').appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (document.getElementById('fireworkContainer').contains(particle)) {
+                            document.getElementById('fireworkContainer').removeChild(particle);
+                        }
+                    }, 2000);
+                }
+            }, 100);
+            
+            // Optional sound effect
+            // const sound = new Audio('firework-sound.mp3');
+            // sound.volume = 0.3;
+            // sound.play();
+        }
+        
+        // Add floating emojis
+        function addEmoji() {
+            const emojis = ['❤️', '💖', '💕', '💝', '💓', '💞', '💗', '💘', '🌟', '✨', '💫', '🔥', '💯', '🎆', '🎇'];
+            const emoji = document.createElement('div');
+            emoji.classList.add('emoji-float');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = `${Math.random() * 100}vw`;
+            emoji.style.setProperty('--rotation', `${Math.random() * 360}deg`);
+            document.getElementById('particleContainer').appendChild(emoji);
+            
+            // Remove after animation
+            setTimeout(() => {
+                if (document.getElementById('particleContainer').contains(emoji)) {
+                    document.getElementById('particleContainer').removeChild(emoji);
+                }
+            }, 10000);
+        }
+        
+        // Add emojis periodically
+        setInterval(addEmoji, 600);
+        
+        // Button click event
+        document.getElementById('sparkleButton').addEventListener('click', () => {
+            // Launch MANY more fireworks all over the screen
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            // Even more massive fireworks burst - first wave (40 fireworks)
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * width;
+                    createFirework(x);
+                }, i * 80); // Faster launch sequence
+            }
+            
+            // Second wave after a short delay (30 more fireworks)
+            setTimeout(() => {
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(() => {
+                        const x = Math.random() * width;
+                        createFirework(x);
+                    }, i * 100);
+                }
+            }, 2500);
+            
+            // Third wave - grand finale (20 more fireworks)
+            setTimeout(() => {
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const x = Math.random() * width;
+                        createFirework(x);
+                    }, i * 60); // Even faster for finale
+                }
+                
+                // Super grand finale - clustered explosion
+                setTimeout(() => {
+                    const centerX = width / 2;
+                    const centerY = height / 3;
+                    
+                    // Create 5 explosions at the center without rockets
+                    for (let i = 0; i < 5; i++) {
+                        setTimeout(() => {
+                            explode(centerX + (Math.random() * 100 - 50), 
+                                   centerY + (Math.random() * 100 - 50));
+                        }, i * 300);
+                    }
+                }, 1200);
+            }, 5000);
+            
+            // Launch many more emojis
+            for (let i = 0; i < 80; i++) {
+                setTimeout(addEmoji, i * 100);
+            }
+            
+            // Change button text temporarily
+            const button = document.getElementById('sparkleButton');
+            const originalText = button.textContent;
+            button.textContent = "SPECTACULAR! ❤️✨";
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 8000);
+            
+            // Shake title
+            const title = document.getElementById('title');
+            title.style.animation = 'none';
+            title.offsetHeight; // Trigger reflow
+            title.style.animation = 'glow 3s infinite alternate';
+        });
+        
+        // Launch initial fireworks
+        window.addEventListener('load', () => {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    createFirework(x);
+                }, 1000 + i * 500);
+            }
+        });
+        
+        // Click anywhere to launch fireworks
+        document.addEventListener('click', (e) => {
+            // Only if not clicking the button (to avoid double effect)
+            if (e.target.id !== 'sparkleButton') {
+                createFirework(e.clientX, e.clientY);
+            }
+        });
+        
+        // Matrix Digital Rain Effect
+        function setupMatrixRain() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            document.getElementById('matrixRain').appendChild(canvas);
+            
+            // Characters to display
+            const characters = '♥️❤️💖💕💗💞💓💘ILOVEYOUMISS';
+            
+            // Font size
+            const fontSize = 16;
+            
+            // Calculate number of columns
+            const columns = Math.floor(canvas.width / fontSize);
+            
+            // Array to store the Y position of each drop
+            const drops = [];
+            
+            // Initialize all drops to start at a random Y position
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.random() * -100;
+            }
+            
+            // Draw the matrix rain
+            function draw() {
+                // Black background with opacity for trail effect
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Set font and color
+                ctx.fillStyle = '#f0f0f0';
+                ctx.font = `${fontSize}px monospace`;
+                
+                // Loop through each drop
+                for (let i = 0; i < drops.length; i++) {
+                    // Get a random character
+                    const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                    
+                    // Draw the character
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    // If at the bottom or randomly, reset to the top
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    
+                    // Move the drop down
+                    drops[i]++;
+                }
+            }
+            
+            // Run the animation
+            return setInterval(draw, 33);
+        }
+        
+        // Initialize matrix rain
+        const matrixInterval = setupMatrixRain();
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            clearInterval(matrixInterval);
+            document.getElementById('matrixRain').innerHTML = '';
+            setupMatrixRain();
+        });
+    </script>
+</body>
+</html>
